@@ -26,7 +26,6 @@ const checkDist = () => {
       
       return roundDist 
     });
-    console.log(Pos)
 
   };
 
