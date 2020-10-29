@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Play from '../Media/play.jpg'
 import ReactPlayer from 'react-player'
-import Video from '../Media/rickroll.mp4'
+import jmudi from '../Components/jmudi'
 
 
 class Bulgaarse extends Component {
@@ -11,8 +11,15 @@ class Bulgaarse extends Component {
     this.state = {
       show: 'playbtn',
     }
-    console.log(this.state.show)
+    //console.log(this.state.show)
     this.checkDist = this.checkDist.bind(this)
+    this.error = this.error.bind(this)
+  }
+  error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+    this.setState({
+      show: 'error'
+    });
   }
   checkDist() {
     function distance(lon1, lat1, lon2, lat2) {
@@ -24,6 +31,7 @@ class Bulgaarse extends Component {
       var d = R * c; // Distance in km
       return d;
     };
+
 
     /** Converts numeric degrees to radians */
     if (typeof (Number.prototype.toRad) === "undefined") {
@@ -37,17 +45,19 @@ class Bulgaarse extends Component {
       let dist = distance(pos.coords.longitude, pos.coords.latitude, 25.937163, 41.913741);
       console.log(Math.floor(dist))
       let roundDist = Math.floor(dist);
-      console.log(this.state.show)
-      roundDist < 1 ? this.setState({
+      roundDist < 21 ? this.setState({
         show: 'video'
       }) :
         this.setState({
           show: 'error'
         })
-    });
+    }, this.error);
   };
 
   render() {
+    function refreshPage() {
+      window.location.reload(false);
+    }
     return (
       <AnimatePresence exitBeforeEnter>
 
@@ -70,18 +80,28 @@ class Bulgaarse extends Component {
               transition={{ duration: 2 }}
               exit={{ opacity: 0 }}>
               <ReactPlayer
-                muted
                 className='react-player'
                 width='100%'
                 height='100%'
-                playing
-                url={Video}
+                url={[{ src: jmudi, type: 'video/mp4' }]}
                 config={{ file: { attributes: { controlsList: 'nodownload' } } }}
                 onContextMenu={e => e.preventDefault()}
                 controls
               />
             </motion.div>
-            : <motion.div key={this.state.show}><p>error</p></motion.div>
+            : <motion.div className='failPage'>
+              <motion.div
+                key={this.state.show}
+                className='warning'
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                <h2>За да гледате това видео, трябва да сте близо до "Изворът на белоногата" и да разрешите нa браузърът да използва местоположението ви.</h2>
+              </motion.div>
+              <div>
+                <button className='tryAgain' onClick={refreshPage}>Опитайте отново</button>
+              </div>
+            </motion.div>
         }
       </AnimatePresence>
     );

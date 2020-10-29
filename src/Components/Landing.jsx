@@ -37,21 +37,25 @@ class Landing extends React.Component {
 
                     className='buttons'
                     initial={{ bottom: -300 }}
-                    animate={{ bottom: 0 }}
+                    animate={{ bottom: 100 }}
                     transition={{ duration: 1, delay: 3 }}
                 >
-                    <motion.div
-                        className='buttonENG'
-                        whileTap={{ scale: 0.95 }}
-                        onTap={this.props.handleruk}
-                    >
-                    </motion.div>
                     <motion.div
                         className='buttonBG'
                         whileTap={{ scale: 0.95 }}
                         onTap={this.props.handlerbg}
                     >
+                        <button className='toVideo'>Към видеото</button>
                     </motion.div>
+                </motion.div>
+                <motion.div
+                    className='copyright'
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 2, delay: 3 }}
+                >
+                    <p>
+                        Създадено от "Бизнесът за Харманли" 2020
+                    </p>
                 </motion.div>
             </motion.div>
         );

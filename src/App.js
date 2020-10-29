@@ -14,20 +14,17 @@ class App extends React.Component {
      }
      this.handlerBG = this.handlerBG.bind(this)
      this.handlerUK = this.handlerUK.bind(this)
-     console.log(this.state.visible)
   }
  
   handlerBG() {
     this.setState({
       visible: 'bg' 
     })
-    console.log(this.state.visible)
   }
   handlerUK() {
     this.setState({
       visible: 'uk' 
     })
-    console.log(this.state.visible)
   }
   
   
